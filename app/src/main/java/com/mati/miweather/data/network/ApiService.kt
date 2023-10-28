@@ -1,5 +1,6 @@
 package com.mati.miweather.data.network
 
+import com.mati.miweather.data.model.CityForecast
 import com.mati.miweather.data.model.CitysStatus
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
@@ -15,5 +16,12 @@ interface ApiService {
         @Query("appid") apiKey: String,
         @Query("lang") language: String
     ): Call<CitysStatus>
+
+    @GET("data/2.5/forecast")
+    fun getCityForecast(
+        @Query("q") location: String,
+        @Query("appid") apiKey: String,
+        @Query("lang") language: String
+    ): Call<CityForecast>
 
 }
