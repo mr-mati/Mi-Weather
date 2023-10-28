@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(apiService: ApiService) : ViewModel() {
     private val _city: MutableState<MovieState> = mutableStateOf(MovieState())
     val city: State<MovieState> = _city
 
-    val location = "تهران"
+    val location = "Tehran"
     val apiKey = "489c59265fb912e0096ba30d3fa6e79f"
     val language = "fa"
     init {
