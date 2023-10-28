@@ -1,4 +1,4 @@
-package com.mati.miweather.ui.feature.DataTime
+package com.mati.miweather.util
 
 import android.os.Build
 import java.time.DayOfWeek
@@ -108,4 +108,15 @@ object DataTime {
         val date = LocalDate.parse(dateString, formatter)
         return date.dayOfWeek
     }
+
+    fun getDayForecast(getDataForDay: String): DayOfWeek {
+        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("yyyy-MM-dd", java.util.Locale.ENGLISH)
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        val date = LocalDate.parse(getDataForDay, formatter)
+        return date.dayOfWeek
+    }
+
 }
