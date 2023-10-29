@@ -20,8 +20,8 @@ val Background1 = Color(214,232,249)
 val Primary = Color(73,81,169)
 val onPrimary = Color(96,92,124)
 
-val Day = Color(45,99,235)
-val Day1 = Color(127,161,247)
+val Day = Color(66, 165, 245, 255)
+val Day1 = Color(255, 241, 118, 255)
 
 val Morning = Color(255, 255, 255)
 val Morning1 = Color(189, 232, 254)
