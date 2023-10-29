@@ -1,6 +1,7 @@
 package com.mati.miweather.data.di
 
 import com.mati.miweather.data.network.ApiService
+import com.mati.miweather.data.repository.RepositoryImpl
 import com.mati.miweather.util.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -27,6 +28,12 @@ object Module {
     @Singleton
     fun apiServiceProvider(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun repositoryProvider(apiService: ApiService): RepositoryImpl {
+        return RepositoryImpl(apiService)
     }
 
 }

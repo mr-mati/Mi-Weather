@@ -7,16 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mati.miweather.data.model.CityForecast
 import com.mati.miweather.data.model.CitysStatus
-import com.mati.miweather.data.network.ApiService
+import com.mati.miweather.data.repository.RepositoryImpl
+import com.mati.miweather.util.API_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import java.util.Timer
 import javax.inject.Inject
+import kotlin.concurrent.timerTask
 
 @HiltViewModel
-class MainViewModel @Inject constructor(apiService: ApiService) : ViewModel() {
+class MainViewModel @Inject constructor(repositoryImpl: RepositoryImpl) : ViewModel() {
 
     private val _city: MutableState<CityState> = mutableStateOf(CityState())
     val city: State<CityState> = _city
@@ -24,90 +24,37 @@ class MainViewModel @Inject constructor(apiService: ApiService) : ViewModel() {
     private val _cityForecast: MutableState<ForecastState> = mutableStateOf(ForecastState())
     val cityForecast: State<ForecastState> = _cityForecast
 
-    private val apiService = apiService
-    fun newCityName(newName: String) {
-        val location = newName
-        val apiKey = "489c59265fb912e0096ba30d3fa6e79f"
-        val language = "fa"
-
-        apiService.getWeather(location, apiKey, language).enqueue(object : Callback<CitysStatus> {
-            override fun onResponse(call: Call<CitysStatus>, response: Response<CitysStatus>) {
-                viewModelScope.launch {
-                    _city.value = CityState(data = response.body())
-                }
-            }
-
-            override fun onFailure(call: Call<CitysStatus>, t: Throwable) {
-                _city.value = CityState(error = t.message.toString())
-            }
-
-        })
-
-        apiService.getCityForecast(location, apiKey, language)
-            .enqueue(object : Callback<CityForecast> {
-                override fun onResponse(
-                    call: Call<CityForecast>,
-                    response: Response<CityForecast>,
-                ) {
-                    viewModelScope.launch {
-                        _cityForecast.value = ForecastState(data = response.body())
-                    }
-                }
-
-                override fun onFailure(call: Call<CityForecast>, t: Throwable) {
-                    _cityForecast.value = ForecastState(error = t.message.toString())
-                }
-            })
-
-    }
-
-    val location = "Tehran"
-    val apiKey = "489c59265fb912e0096ba30d3fa6e79f"
-    val language = "fa"
-
-    init {
-        apiService.getWeather(location, apiKey, language).enqueue(object : Callback<CitysStatus> {
-            override fun onResponse(call: Call<CitysStatus>, response: Response<CitysStatus>) {
-                viewModelScope.launch {
-                    _city.value = CityState(data = response.body())
-                }
-            }
-
-            override fun onFailure(call: Call<CitysStatus>, t: Throwable) {
-                _city.value = CityState(error = t.message.toString())
-            }
-
-        })
+    val repository = repositoryImpl
+    fun newData(cityName: String) {
+        repository.newData(cityName)
+        viewModelScope.launch {
+            Timer().schedule(timerTask {
+                _city.value = repository.cityResponse!!
+                _cityForecast.value = repository.forecastResponse!!
+            }, 1000)
+        }
     }
 
     init {
-        apiService.getCityForecast(location, apiKey, language)
-            .enqueue(object : Callback<CityForecast> {
-                override fun onResponse(
-                    call: Call<CityForecast>,
-                    response: Response<CityForecast>,
-                ) {
-                    viewModelScope.launch {
-                        _cityForecast.value = ForecastState(data = response.body())
-                    }
-                }
-
-                override fun onFailure(call: Call<CityForecast>, t: Throwable) {
-                    _cityForecast.value = ForecastState(error = t.message.toString())
-                }
-            })
+        viewModelScope.launch {
+            Timer().schedule(timerTask {
+                _city.value = repositoryImpl.cityResponse!!
+                _cityForecast.value = repositoryImpl.forecastResponse!!
+            }, 2000)
+        }
     }
+
 
 }
 
 data class CityState(
     val data: CitysStatus? = null,
     val error: String = " ",
-    val isLoading: Boolean = false,
+    var isLoading: Boolean = true,
 )
 
 data class ForecastState(
     val data: CityForecast? = null,
     val error: String = " ",
-    val isLoading: Boolean = false,
+    var isLoading: Boolean = true,
 )
