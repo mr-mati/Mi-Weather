@@ -3,13 +3,13 @@ package com.mati.miweather.ui.feature.Header
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,6 +47,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.mati.miweather.R
 import com.mati.miweather.data.model.CitysStatus
 import com.mati.miweather.ui.theme.Day
@@ -65,7 +68,7 @@ import com.mati.miweather.util.DataTime
 import kotlinx.coroutines.delay
 
 @Composable
-fun Header(response: CitysStatus) {
+fun Header(response: CitysStatus, onclick: () -> Unit) {
     val data = DataTime.getCurrentDate()
     val monthName = DataTime.getGregorianMonthName()
     val day = DataTime.getDayOfWeekFromDate()
@@ -86,7 +89,9 @@ fun Header(response: CitysStatus) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .clickable { onclick() },
         ) {
             Text(
                 text = response.name, style = TextStyle(
@@ -173,7 +178,7 @@ fun Header(response: CitysStatus) {
                                     .size(150.dp)
                                     .align(Alignment.BottomEnd)
                                     .padding(top = 68.dp, end = 8.dp, start = 8.dp),
-                                text = "$weather",
+                                text = weather,
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
                                 style = TextStyle(
@@ -198,18 +203,64 @@ fun Header(response: CitysStatus) {
                     fontSize = 150.sp
                 )
             )
-            Image(
-                painter = painterResource(id = R.drawable.partly_cloudy),
+            val composition by rememberLottieComposition(
+                LottieCompositionSpec.RawRes(
+                    imageFeature(
+                        response
+                    )
+                )
+            )
+            LottieAnimation(
                 modifier = Modifier
                     .size(270.dp, 270.dp)
                     .padding(top = 70.dp, end = 100.dp)
                     .align(Alignment.BottomStart)
                     .background(Color.Transparent),
-                contentScale = ContentScale.Crop,
-                contentDescription = ""
+                composition = composition,
+                alignment = Alignment.Center,
+                iterations = LottieConstants.IterateForever,
             )
         }
     }
+}
+
+
+@Composable
+fun imageFeature(response: CitysStatus): Int {
+
+    var anim by remember { mutableStateOf(R.raw.day) }
+    val time = DataTime.getBackGroundTime()
+    val icon = response.weather[0].icon
+    when (time) {
+        in 5..17 -> {
+            when (icon) {
+                "01d" -> anim = R.raw.day
+                "02d" -> anim = R.raw.day_clouds
+                "03d" -> anim = R.raw.clouds
+                "04d" -> anim = R.raw.clouds
+                "09d" -> anim = R.raw.day_rain
+                "10d" -> anim = R.raw.day_rain
+                "11d" -> anim = R.raw.thunderstorm
+                "13d" -> anim = R.raw.day_snow
+                else -> R.raw.day
+            }
+        }
+
+        else -> {
+            when (icon) {
+                "01n" -> anim = R.raw.night
+                "02n" -> anim = R.raw.night_clouds
+                "03n" -> anim = R.raw.clouds
+                "04n" -> anim = R.raw.clouds
+                "09n" -> anim = R.raw.night_rain
+                "10n" -> anim = R.raw.night_rain
+                "11n" -> anim = R.raw.thunderstorm
+                "13n" -> anim = R.raw.night_snow
+                else -> R.raw.night
+            }
+        }
+    }
+    return anim
 }
 
 @Composable
@@ -291,42 +342,23 @@ fun FeatureAnimation() {
         )
     )
 
-    var offset by remember { mutableStateOf(0.dp) }
-    val animatedOffset by animateDpAsState(
-        targetValue = 100.dp,
-        animationSpec = tween(durationMillis = 1000)
-    )
-
-    offset = animatedOffset
+    imageAlpha = alphaAnimation
 
     val time = DataTime.getBackGroundTime()
     when (time) {
-        in 6..13 -> {
-            Image(
-                painter = painterResource(id = R.drawable.img_cloud),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+        in 6..18 -> {
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.day_effect))
+            LottieAnimation(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Transparent)
-                    .offset(x = offset, y = 0.dp)
+                    .background(Color.Transparent),
+                composition = composition,
+                alignment = Alignment.Center,
+                iterations = LottieConstants.IterateForever,
             )
         }
 
-        in 12..19 -> {
-            Image(
-                painter = painterResource(id = R.drawable.img_cloud),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Transparent)
-                    .offset(x = offset, y = 0.dp)
-            )
-        }
-
-        in 19..24 -> {
-            imageAlpha = alphaAnimation
+        in 18..24 -> {
             Image(
                 painter = painterResource(id = R.drawable.star_feature),
                 contentDescription = null,
@@ -335,11 +367,19 @@ fun FeatureAnimation() {
                     .fillMaxSize()
                     .background(Transparent)
                     .alpha(imageAlpha)
+            )
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.night_effect))
+            LottieAnimation(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Transparent),
+                composition = composition,
+                alignment = Alignment.Center,
+                iterations = LottieConstants.IterateForever,
             )
         }
 
         in 1..6 -> {
-            imageAlpha = alphaAnimation
             Image(
                 painter = painterResource(id = R.drawable.star_feature),
                 contentDescription = null,
@@ -348,6 +388,15 @@ fun FeatureAnimation() {
                     .fillMaxSize()
                     .background(Transparent)
                     .alpha(imageAlpha)
+            )
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.night_effect))
+            LottieAnimation(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Transparent),
+                composition = composition,
+                alignment = Alignment.Center,
+                iterations = LottieConstants.IterateForever,
             )
         }
     }
