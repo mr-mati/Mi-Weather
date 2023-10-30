@@ -4,8 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mati.mimovies.utils.MovieNavigationItems
-import com.mati.miweather.data.model.CitysStatus
+import com.mati.mimovies.utils.NavigationItem
 import com.mati.miweather.ui.feature.MainScreen
 import com.mati.miweather.ui.feature.MainViewModel
 
@@ -14,10 +13,10 @@ fun Navigation(viewModel: MainViewModel) {
     val navHostController = rememberNavController()
     NavHost(
         navController = navHostController,
-        startDestination = MovieNavigationItems.MainScreen.route
+        startDestination = NavigationItem.MainScreen.route
     ) {
-        composable(MovieNavigationItems.MainScreen.route) {
-            MainScreen(viewModel)
+        composable(NavigationItem.MainScreen.route) {
+            MainScreen(viewModel, navHostController)
         }
     }
 
