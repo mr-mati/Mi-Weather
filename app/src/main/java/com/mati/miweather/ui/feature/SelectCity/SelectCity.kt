@@ -53,7 +53,7 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
             "شیراز",
             "ساری",
             "اردبیل",
-            "سبرجان",
+            "سیرجان",
             "شهرکرد",
             "رشت",
             "گرگان",
