@@ -69,9 +69,9 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun Header(response: CitysStatus, onclick: () -> Unit) {
-    val data = DataTime.getCurrentDate()
     val monthName = DataTime.getGregorianMonthName()
-    val day = DataTime.getDayOfWeekFromDate()
+    val dayName = DataTime.getDayName()
+    val day = DataTime.getDay()
 
     var time by remember { mutableStateOf(DataTime.getCurrentTime()) }
     LaunchedEffect(Unit) {
@@ -102,7 +102,7 @@ fun Header(response: CitysStatus, onclick: () -> Unit) {
         }
         Text(
             modifier = Modifier.padding(top = 2.dp, bottom = 4.dp),
-            text = "$day, $data $monthName $time",
+            text = "$dayName, $day $monthName $time",
             style = TextStyle(
                 color = Color.Gray, fontSize = 14.sp
             )
@@ -229,7 +229,7 @@ fun Header(response: CitysStatus, onclick: () -> Unit) {
 fun imageFeature(response: CitysStatus): Int {
 
     var anim by remember { mutableStateOf(R.raw.day) }
-    val time = DataTime.getBackGroundTime()
+    val time = DataTime.getHour()
     val icon = response.weather[0].icon
     when (time) {
         in 5..17 -> {
@@ -265,7 +265,7 @@ fun imageFeature(response: CitysStatus): Int {
 
 @Composable
 fun featureBackground(): Brush {
-    val time = DataTime.getBackGroundTime()
+    val time = DataTime.getHour()
     lateinit var brush: Brush
     when (time) {
         in 6..12 -> {
@@ -297,7 +297,7 @@ fun featureBackground(): Brush {
 
 @Composable
 fun featureColor(): Brush {
-    val time = DataTime.getBackGroundTime()
+    val time = DataTime.getHour()
     lateinit var brush: Brush
     when (time) {
         in 6..12 -> {
@@ -344,7 +344,7 @@ fun FeatureAnimation() {
 
     imageAlpha = alphaAnimation
 
-    val time = DataTime.getBackGroundTime()
+    val time = DataTime.getHour()
     when (time) {
         in 6..18 -> {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.day_effect))

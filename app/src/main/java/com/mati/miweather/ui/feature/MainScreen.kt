@@ -6,16 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mati.mimovies.utils.NavigationItem
+import com.mati.miweather.ui.feature.Error.ErrorPage
 import com.mati.miweather.ui.feature.Forcast.ListForecastItem
 import com.mati.miweather.ui.feature.Header.Header
 import com.mati.miweather.ui.feature.SelectCity.SelectCity
@@ -44,6 +42,7 @@ import com.mati.miweather.ui.theme.Background
 import com.mati.miweather.ui.theme.Background1
 import com.mati.miweather.ui.theme.Primary
 import com.mati.miweather.ui.theme.onPrimary
+import com.mati.miweather.util.NetworkChecker
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -81,97 +80,66 @@ fun MainScreen(
                 strokeWidth = 5.dp, // You can adjust the stroke width
             )
         }
-
-        if (data?.name != null && responseForecast.data?.list != null) {
-            response.isLoading = false
-            responseForecast.isLoading = false
-            Surface {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(brush = backgroundColor),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Header(response = data) {
-                        visibleDialog = true
-                    }
-                    StatusBar(response = data)
-                    TitleList("Forecast", "5 Day")
-                    LazyRow(
-                        modifier = Modifier
-                            .padding(start = 4.dp)
-                    ) {
-                        items(
-                            items = listForecast!!,
-                            key = {
-                                it.dt
-                            },
-                        ) { response ->
-                            ListForecastItem(results = response)
-                        }
-                    }
-                }
-                if (visibleDialog) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                color = Color(0.5f, 0.5f, 0.5f, 0.5f)
-                            )
-                            .clickable {
-                                visibleDialog = false
-                            }
-                    )
-                    SelectCity(viewModel) {
-                        visibleDialog = false
-                    }
+    } else if (response.error != null || responseForecast.error != null) {
+        ErrorPage(response.error, responseForecast.error) {
+            navHostController.navigate(NavigationItem.MainScreen.route) {
+                popUpTo(NavigationItem.MainScreen.route) {
+                    inclusive = true
                 }
             }
         }
-    } else if (response.error.isNotEmpty() || responseForecast.error.isNotEmpty()) {
-        if (data?.name != null && responseForecast.data?.list != null) {
-            response.isLoading = false
-            responseForecast.isLoading = false
+    }
+
+    val context = LocalContext.current
+    if (!NetworkChecker(context).isInternetConnected) {
+        ErrorPage("Check Connection", "") {
+            navHostController.navigate(NavigationItem.MainScreen.route) {
+                popUpTo(NavigationItem.MainScreen.route) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+
+    if (data?.name != null && responseForecast.data?.list != null) {
+        response.isLoading = false
+        responseForecast.isLoading = false
+        Surface {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = backgroundColor)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
+                    .background(brush = backgroundColor),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Error",
-                    fontSize = 24.sp,
-                    color = Color.Red
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = response.error,
-                    fontSize = 16.sp
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = responseForecast.error,
-                    fontSize = 16.sp
-                )
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                Button(
-                    onClick = {
-                        navHostController.navigate(NavigationItem.MainScreen.route) {
-                            popUpTo(NavigationItem.MainScreen.route) {
-                                inclusive = true
-                            }
-                        }
-                    },
-                    contentPadding = PaddingValues(16.dp)
+                Header(response = data) {
+                    visibleDialog = true
+                }
+                StatusBar(response = data)
+                TitleList("Forecast", "5 Day")
+                LazyRow(
+                    modifier = Modifier.padding(start = 4.dp)
                 ) {
-                    Text(text = "Retry")
+                    items(
+                        items = listForecast!!,
+                        key = {
+                            it.dt
+                        },
+                    ) { response ->
+                        ListForecastItem(results = response)
+                    }
+                }
+            }
+            if (visibleDialog) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = Color(0.5f, 0.5f, 0.5f, 0.5f)
+                    )
+                    .clickable {
+                        visibleDialog = false
+                    })
+                SelectCity(viewModel) {
+                    visibleDialog = false
                 }
             }
         }
@@ -186,21 +154,19 @@ fun TitleList(text: String, action: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(end = 18.dp, start = 8.dp, top = 8.dp, bottom = 4.dp)
-    )
-    {
+    ) {
         Text(
-            modifier = Modifier
-                .padding(start = 8.dp),
+            modifier = Modifier.padding(start = 8.dp),
             fontWeight = FontWeight.Bold,
-            text = text, style = TextStyle(
+            text = text,
+            style = TextStyle(
                 color = Primary, fontSize = 24.sp
             )
         )
         TextButton(onClick = { /*TODO*/ }) {
             Text(
                 text = action, style = TextStyle(
-                    color = onPrimary,
-                    fontSize = 18.sp
+                    color = onPrimary, fontSize = 18.sp
                 )
             )
         }
