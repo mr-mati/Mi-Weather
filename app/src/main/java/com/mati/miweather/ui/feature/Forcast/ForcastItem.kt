@@ -1,10 +1,8 @@
 package com.mati.miweather.ui.feature.Forcast
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -35,6 +33,7 @@ import com.mati.miweather.data.model.CityForecast
 import com.mati.miweather.ui.theme.Transparent
 import com.mati.miweather.ui.theme.White
 import com.mati.miweather.util.BASE_IMAGE_URL
+import com.mati.miweather.util.DataTime
 
 @Composable
 fun ListForecastItem(
@@ -43,11 +42,13 @@ fun ListForecastItem(
 
     val temp = results.main.temp - 273.15
     val responseTemp = temp.toString().substring(0, 2)
+    val data = results.dt_txt.substring(0, 10)
+    val dayName = DataTime.getDayName(data).toString()
 
     Card(
         modifier = Modifier
             .width(180.dp)
-            .height(120.dp)
+            .height(130.dp)
             .padding(end = 4.dp)
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(
@@ -76,7 +77,17 @@ fun ListForecastItem(
             )
             Text(
                 modifier = Modifier
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 28.dp)
+                    .align(Alignment.BottomCenter),
+                text = dayName, style = TextStyle(
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                )
+            )
+            Text(
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
                     .align(Alignment.BottomCenter),
                 text = results.dt_txt, style = TextStyle()
             )

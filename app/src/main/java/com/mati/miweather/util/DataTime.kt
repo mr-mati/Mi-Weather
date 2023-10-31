@@ -23,7 +23,7 @@ object DataTime {
         return currentTime.format(formatter)
     }
 
-    fun getBackGroundTime(): Int {
+    fun getHour(): Int {
         val currentTime = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LocalTime.now()
         } else {
@@ -38,7 +38,7 @@ object DataTime {
         return currentTime.hour
     }
 
-    fun getCurrentDate(): String {
+    fun getDay(): String {
         val currentDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LocalDate.now()
         } else {
@@ -52,7 +52,7 @@ object DataTime {
         return currentDate.format(formatter)
     }
 
-    fun getregorianMonthDate(): String {
+    fun getMonth(): String {
         val currentDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LocalDate.now()
         } else {
@@ -66,8 +66,36 @@ object DataTime {
         return currentDate.format(formatter)
     }
 
+    fun getYear(): String {
+        val currentDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDate.now()
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("yyyy")
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        return currentDate.format(formatter)
+    }
+
+    fun getCurrentData(): String {
+        val currentDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDate.now()
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        return currentDate.format(formatter)
+    }
+
     fun getGregorianMonthName(): String? {
-        return when (getregorianMonthDate()) {
+        return when (getMonth()) {
             "1" -> "January"
             "2" -> "February"
             "3" -> "March"
@@ -84,38 +112,13 @@ object DataTime {
         }
     }
 
-    fun getDataForDay(): String {
-        val currentDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDate.now()
-        } else {
-            TODO("VERSION.SDK_INT < O")
-        }
-        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        } else {
-            TODO("VERSION.SDK_INT < O")
-        }
-        return currentDate.format(formatter)
-    }
-
-    fun getDayOfWeekFromDate(): DayOfWeek {
-        val dateString = getDataForDay()
+    fun getDayName(data: String): DayOfWeek {
         val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             DateTimeFormatter.ofPattern("yyyy-MM-dd", java.util.Locale.ENGLISH)
         } else {
             TODO("VERSION.SDK_INT < O")
         }
-        val date = LocalDate.parse(dateString, formatter)
-        return date.dayOfWeek
-    }
-
-    fun getDayForecast(getDataForDay: String): DayOfWeek {
-        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            DateTimeFormatter.ofPattern("yyyy-MM-dd", java.util.Locale.ENGLISH)
-        } else {
-            TODO("VERSION.SDK_INT < O")
-        }
-        val date = LocalDate.parse(getDataForDay, formatter)
+        val date = LocalDate.parse(data, formatter)
         return date.dayOfWeek
     }
 

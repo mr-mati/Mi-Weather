@@ -69,8 +69,9 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun Header(response: CitysStatus, onclick: () -> Unit) {
+    val data = DataTime.getCurrentData()
     val monthName = DataTime.getGregorianMonthName()
-    val dayName = DataTime.getDayName()
+    val dayName = DataTime.getDayName(data).toString()
     val day = DataTime.getDay()
 
     var time by remember { mutableStateOf(DataTime.getCurrentTime()) }
