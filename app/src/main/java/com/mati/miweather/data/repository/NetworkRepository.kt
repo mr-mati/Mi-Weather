@@ -11,8 +11,11 @@ import retrofit2.Response
 
 class NetworkRepository(apiService: ApiService) {
 
-    var cityResponse: CityState? = null
-    var forecastResponse: ForecastState? = null
+    var cityResponse: CitysStatus? = null
+    var forecastResponse: CityForecast? = null
+
+    var cityError: String? = null
+    var ForecastError: String? = null
 
     private val apiService = apiService
 
@@ -20,11 +23,12 @@ class NetworkRepository(apiService: ApiService) {
         val location = cityName
         apiService.getWeather(location).enqueue(object : Callback<CitysStatus> {
             override fun onResponse(call: Call<CitysStatus>, response: Response<CitysStatus>) {
-                cityResponse = CityState(data = response.body())
+                cityResponse = response.body()
+                CityState(isLoading = false)
             }
 
             override fun onFailure(call: Call<CitysStatus>, t: Throwable) {
-                cityResponse = CityState(error = t.message.toString())
+                cityError = t.message.toString()
             }
         })
 
@@ -34,11 +38,12 @@ class NetworkRepository(apiService: ApiService) {
                     call: Call<CityForecast>,
                     response: Response<CityForecast>,
                 ) {
-                    forecastResponse = ForecastState(data = response.body())
+                    forecastResponse = response.body()
+                    ForecastState(isLoading = false)
                 }
 
                 override fun onFailure(call: Call<CityForecast>, t: Throwable) {
-                    forecastResponse = ForecastState(error = t.message.toString())
+                    ForecastError = t.message.toString()
                 }
             })
 

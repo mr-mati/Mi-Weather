@@ -1,6 +1,5 @@
 package com.mati.miweather.ui.feature
 
-import android.content.SharedPreferences
 import android.os.Handler
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -10,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.mati.miweather.data.model.CityForecast
 import com.mati.miweather.data.model.CitysStatus
 import com.mati.miweather.data.repository.NetworkRepository
+import com.mati.miweather.util.NetworkChecker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Timer
@@ -31,8 +31,8 @@ class MainViewModel @Inject constructor(repositoryImpl: NetworkRepository) : Vie
         repository.newData(cityName)
         viewModelScope.launch {
             Timer().schedule(timerTask {
-                _city.value = repository.cityResponse!!
-                _cityForecast.value = repository.forecastResponse!!
+                _city.value = CityState(repository.cityResponse)
+                _cityForecast.value = ForecastState(repository.forecastResponse)
             }, 1000)
         }
     }
@@ -41,19 +41,15 @@ class MainViewModel @Inject constructor(repositoryImpl: NetworkRepository) : Vie
         repository.newData("Tehran")
         viewModelScope.launch {
             Handler().postDelayed({
-                if (repository.cityResponse?.data != null && repository.forecastResponse?.data != null) {
-                    _city.value = repository.cityResponse!!
-                    _cityForecast.value = repository.forecastResponse!!
-                } else {
-                    Timer().schedule(timerTask {
-                        _city.value = CityState(error = "Connection Error")
-                        _cityForecast.value = ForecastState(error = "Connection Error")
-                    }, 20000)
+                _city.value = CityState(data = repository.cityResponse)
+                _cityForecast.value = ForecastState(data = repository.forecastResponse)
+                if (repository.cityError != null || repository.ForecastError != null) {
+                    _city.value = CityState(error = repository.cityError!!)
+                    _cityForecast.value = ForecastState(error = repository.ForecastError!!)
                 }
             }, 2000)
         }
     }
-
 
 }
 
