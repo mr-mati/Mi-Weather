@@ -243,7 +243,7 @@ fun imageFeature(response: CitysStatus): Int {
                 "10d" -> anim = R.raw.day_rain
                 "11d" -> anim = R.raw.thunderstorm
                 "13d" -> anim = R.raw.day_snow
-                else -> R.raw.day
+                "50d" -> anim = R.raw.mist
             }
         }
 
@@ -257,7 +257,7 @@ fun imageFeature(response: CitysStatus): Int {
                 "10n" -> anim = R.raw.night_rain
                 "11n" -> anim = R.raw.thunderstorm
                 "13n" -> anim = R.raw.night_snow
-                else -> R.raw.night
+                "50n" -> anim = R.raw.mist
             }
         }
     }
@@ -345,8 +345,7 @@ fun FeatureAnimation() {
 
     imageAlpha = alphaAnimation
 
-    val time = DataTime.getHour()
-    when (time) {
+    when (DataTime.getHour()) {
         in 6..18 -> {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.day_effect))
             LottieAnimation(
