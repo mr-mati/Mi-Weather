@@ -287,7 +287,7 @@ fun featureBackground(): Brush {
             )
         }
 
-        in 1..6 -> {
+        in 0..6 -> {
             brush = Brush.verticalGradient(
                 0.0f to Magic, 1.0f to Magic1, startY = 0.0f, endY = 800.0f
             )
@@ -319,7 +319,7 @@ fun featureColor(): Brush {
             )
         }
 
-        in 1..6 -> {
+        in 0..6 -> {
             brush = Brush.verticalGradient(
                 0.0f to Magic1, 1.0f to Magic, startY = 0.0f, endY = 800.0f
             )
@@ -379,7 +379,7 @@ fun FeatureAnimation() {
             )
         }
 
-        in 1..6 -> {
+        in 0..6 -> {
             Image(
                 painter = painterResource(id = R.drawable.star_feature),
                 contentDescription = null,
