@@ -37,6 +37,7 @@ import com.mati.miweather.ui.feature.Error.ErrorPage
 import com.mati.miweather.ui.feature.Forcast.ListForecastItem
 import com.mati.miweather.ui.feature.Header.Header
 import com.mati.miweather.ui.feature.SelectCity.SelectCity
+import com.mati.miweather.ui.feature.Splash.SplashScreen
 import com.mati.miweather.ui.feature.StatusBar.StatusBar
 import com.mati.miweather.ui.theme.Background
 import com.mati.miweather.ui.theme.Background1
@@ -68,18 +69,7 @@ fun MainScreen(
     )
 
     if (response.isLoading || responseForecast.isLoading) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(brush = backgroundColor),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator(
-                color = Color.Blue, // You can set the color of the CircularProgressIndicator
-                strokeWidth = 5.dp, // You can adjust the stroke width
-            )
-        }
+        SplashScreen()
     } else if (response.error != null || responseForecast.error != null) {
         ErrorPage(response.error, responseForecast.error) {
             navHostController.navigate(NavigationItem.MainScreen.route) {
