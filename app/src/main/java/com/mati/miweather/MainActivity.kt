@@ -34,12 +34,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                        Navigation(viewModel)
-
+                    viewModel.getData()
+                    Navigation(viewModel)
                 }
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getData()
+    }
+
 }
 
 @Composable

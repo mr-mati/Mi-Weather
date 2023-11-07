@@ -75,6 +75,7 @@ fun MainScreen(
             navHostController.navigate(NavigationItem.MainScreen.route) {
                 popUpTo(NavigationItem.MainScreen.route) {
                     inclusive = true
+                    viewModel.getData()
                 }
             }
         }
@@ -86,6 +87,7 @@ fun MainScreen(
             navHostController.navigate(NavigationItem.MainScreen.route) {
                 popUpTo(NavigationItem.MainScreen.route) {
                     inclusive = true
+                    viewModel.getData()
                 }
             }
         }

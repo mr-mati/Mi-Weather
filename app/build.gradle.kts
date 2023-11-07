@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("com.google.android.libraries.places:places:3.2.0")
     implementation("androidx.compose.ui:ui-text-android:1.5.4")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -74,6 +75,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("io.coil-kt:coil-compose:2.1.0")
     implementation("androidx.activity:activity-ktx:1.8.0")
+
+    // Data Store
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // System Ui Controller
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")

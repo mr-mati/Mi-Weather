@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mati.miweather.data.model.CityForecast
 import com.mati.miweather.data.model.CitysStatus
+import com.mati.miweather.data.repository.DataStoreRepository
 import com.mati.miweather.data.repository.NetworkRepository
-import com.mati.miweather.util.NetworkChecker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Timer
@@ -17,9 +17,10 @@ import javax.inject.Inject
 import kotlin.concurrent.timerTask
 
 @HiltViewModel
-class MainViewModel @Inject constructor(repositoryImpl: NetworkRepository) : ViewModel() {
-
-    val repository = repositoryImpl
+class MainViewModel @Inject constructor(
+    private val repository: NetworkRepository,
+    private val dataStoreRepository: DataStoreRepository
+) : ViewModel() {
 
     private val _city: MutableState<CityState> = mutableStateOf(CityState())
     val city: State<CityState> = _city
@@ -28,8 +29,9 @@ class MainViewModel @Inject constructor(repositoryImpl: NetworkRepository) : Vie
     val cityForecast: State<ForecastState> = _cityForecast
 
     fun newData(cityName: String) {
-        repository.newData(cityName)
         viewModelScope.launch {
+            repository.newData(cityName)
+            saveCityName(cityName)
             Timer().schedule(timerTask {
                 _city.value = CityState(repository.cityResponse)
                 _cityForecast.value = ForecastState(repository.forecastResponse)
@@ -37,9 +39,9 @@ class MainViewModel @Inject constructor(repositoryImpl: NetworkRepository) : Vie
         }
     }
 
-    init {
-        repository.newData("Tehran")
+    fun getData() {
         viewModelScope.launch {
+            repository.newData(readCityName())
             Handler().postDelayed({
                 _city.value = CityState(data = repository.cityResponse)
                 _cityForecast.value = ForecastState(data = repository.forecastResponse)
@@ -50,6 +52,12 @@ class MainViewModel @Inject constructor(repositoryImpl: NetworkRepository) : Vie
             }, 2000)
         }
     }
+
+    suspend fun saveCityName(cityName: String) {
+        dataStoreRepository.saveCityName(cityName)
+    }
+
+    suspend fun readCityName(): String = dataStoreRepository.readCityName()
 
 }
 
