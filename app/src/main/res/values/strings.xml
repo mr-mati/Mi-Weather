@@ -1,3 +1,62 @@
 <resources>
     <string name="app_name">Mi Weather</string>
+
+    <string name="check_connection">Check Connection</string>
+
+    <string name="forecast">Forecast</string>
+    <string name="five_day">5 Day</string>
+
+    <string name="centigrade">°C</string>
+    <string name="kilometers">Km/h</string>
+    <string name="percent">%</string>
+    <string name="mb">mb</string>
+
+    <string name="windSpeed">Wind Speed</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+
+    <string name="setting">Setting</string>
+    <string name="theme">Theme</string>
+    <string name="language">Language</string>
+    <string name="services">Services</string>
+    <string name="unit">Unit</string>
+    <string name="about">About</string>
+
+
+
+    <string name="error">Error</string>
+    <string name="select">Error</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
+
+    <string name="city_selected">City Selected</string>
+
+    <string name="tehran">Tehran</string>
+    <string name="ghom">Ghom</string>
+    <string name="esfahan">Esfahan</string>
+    <string name="hamedan">Hamedan</string>
+    <string name="mashhad">Mashhad</string>
+    <string name="karaj">Karaj</string>
+    <string name="yazd">Yazd</string>
+    <string name="shiraz">Shiraz</string>
+    <string name="sari">Sari</string>
+    <string name="ardabil">Ardabil</string>
+    <string name="sirajan">Sirajan</string>
+    <string name="shahrKord">ShahrKord</string>
+    <string name="rasht">Rasht</string>
+    <string name="gorgan">Gorgan</string>
+    <string name="arak">Arak</string>
+    <string name="yasoj">Yasoj</string>
+    <string name="tabriz">Tabriz</string>
+    <string name="kerman">Kerman</string>
+    <string name="kashan">Kashan</string>
+    <string name="kermanShah">KermanShah</string>
+    <string name="golestan">Golestan</string>
+    <string name="zahedan">Zahedan</string>
+    <string name="hormozgan">Hormozgan</string>
+    <string name="ahvaz">Ahvaz</string>
+    <string name="sanandaj">Sanandaj</string>
+    <string name="bandarAbbas">Bandar Abbas</string>
+
 </resources>
