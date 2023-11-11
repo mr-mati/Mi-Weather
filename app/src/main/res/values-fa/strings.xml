@@ -14,15 +14,15 @@
     <string name="mb">mb</string>
 
     <string name="windSpeed">سرعت باد</string>
-    <string name="humidity">Humidity</string>
-    <string name="pressure">Pressure</string>
+    <string name="humidity">رطوبت</string>
+    <string name="pressure">فشار هوا</string>
 
-    <string name="setting">نظیمات</string>
+    <string name="setting">تنظیمات</string>
     <string name="theme">رابط کاربری</string>
     <string name="language">زبان</string>
     <string name="services">سرویس ها</string>
     <string name="unit">واحد</string>
-    <string name="about">About</string>
+    <string name="about">درباره ما</string>
 
 
     <string name="error">خطا</string>
