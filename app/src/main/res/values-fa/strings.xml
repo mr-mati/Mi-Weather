@@ -34,7 +34,7 @@
     <string name="city_selected">انتخاب مکان</string>
 
     <string name="tehran">تهران</string>
-    <string name="ghom">قم</string>
+    <string name="Qom">قم</string>
     <string name="esfahan">اصفهان</string>
     <string name="hamedan">همدان</string>
     <string name="mashhad">مشهد</string>
@@ -43,16 +43,16 @@
     <string name="shiraz">شیراز</string>
     <string name="sari">ساری</string>
     <string name="ardabil">اردبیل</string>
-    <string name="sirajan">سیرجان</string>
+    <string name="sirjan">سیرجان</string>
     <string name="shahrKord">شهرکرد</string>
     <string name="rasht">رشت</string>
     <string name="gorgan">گرگان</string>
     <string name="arak">اراک</string>
-    <string name="yasoj">یاسوج</string>
+    <string name="Yasuj">یاسوج</string>
     <string name="tabriz">تبریز</string>
     <string name="kerman">کرمان</string>
     <string name="kashan">کاشان</string>
-    <string name="kermanShah">کرمانشاه</string>
+    <string name="Kermanshah">کرمانشاه</string>
     <string name="golestan">گلستان</string>
     <string name="zahedan">زاهدان</string>
     <string name="hormozgan">هرمزگان</string>

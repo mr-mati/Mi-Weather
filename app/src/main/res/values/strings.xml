@@ -33,7 +33,7 @@
     <string name="city_selected">City Selected</string>
 
     <string name="tehran">Tehran</string>
-    <string name="ghom">Ghom</string>
+    <string name="Qom">Qom</string>
     <string name="esfahan">Esfahan</string>
     <string name="hamedan">Hamedan</string>
     <string name="mashhad">Mashhad</string>
@@ -42,16 +42,16 @@
     <string name="shiraz">Shiraz</string>
     <string name="sari">Sari</string>
     <string name="ardabil">Ardabil</string>
-    <string name="sirajan">Sirajan</string>
-    <string name="shahrKord">ShahrKord</string>
+    <string name="sirjan">Sirjan</string>
+    <string name="shahrKord">Shahr-e Kord</string>
     <string name="rasht">Rasht</string>
     <string name="gorgan">Gorgan</string>
     <string name="arak">Arak</string>
-    <string name="yasoj">Yasoj</string>
+    <string name="Yasuj">Yasuj</string>
     <string name="tabriz">Tabriz</string>
     <string name="kerman">Kerman</string>
     <string name="kashan">Kashan</string>
-    <string name="kermanShah">KermanShah</string>
+    <string name="Kermanshah">Kermanshah</string>
     <string name="golestan">Golestan</string>
     <string name="zahedan">Zahedan</string>
     <string name="hormozgan">Hormozgan</string>

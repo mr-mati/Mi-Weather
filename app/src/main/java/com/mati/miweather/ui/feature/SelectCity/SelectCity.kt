@@ -1,6 +1,5 @@
 package com.mati.miweather.ui.feature.SelectCity
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,12 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mati.miweather.R
 import com.mati.miweather.ui.feature.MainViewModel
 import com.mati.miweather.ui.theme.Background
 import com.mati.miweather.ui.theme.Background1
@@ -35,40 +35,38 @@ import com.mati.miweather.ui.theme.White
 @Composable
 fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
 
-    val sharedPreferences = LocalContext.current.getSharedPreferences("City", Context.MODE_PRIVATE)
-
     val backgroundColor = Brush.verticalGradient(
         0.0f to Background1, 1.0f to Background, startY = 0.0f, endY = 800.0f
     )
 
     val cities =
         listOf(
-            "تهران",
-            "قم",
-            "اصفهان",
-            "همدان",
-            "مشهد",
-            "کرج",
-            "یزد",
-            "شیراز",
-            "ساری",
-            "اردبیل",
-            "سیرجان",
-            "شهرکرد",
-            "رشت",
-            "گرگان",
-            "اراک",
-            "یاسوج",
-            "تبریز",
-            "کرمان",
-            "کاشان",
-            "کرمانشاه",
-            "گلستان",
-            "زاهدان",
-            "هرمزگان",
-            "اهواز",
-            "سنندج",
-            "بندر عباس"
+            stringResource(R.string.tehran),
+            stringResource(R.string.Qom),
+            stringResource(R.string.esfahan),
+            stringResource(R.string.hamedan),
+            stringResource(R.string.mashhad),
+            stringResource(R.string.karaj),
+            stringResource(R.string.yazd),
+            stringResource(R.string.shiraz),
+            stringResource(R.string.sari),
+            stringResource(R.string.ardabil),
+            stringResource(R.string.sirjan),
+            stringResource(R.string.shahrKord),
+            stringResource(R.string.rasht),
+            stringResource(R.string.gorgan),
+            stringResource(R.string.arak),
+            stringResource(R.string.Yasuj),
+            stringResource(R.string.tabriz),
+            stringResource(R.string.kerman),
+            stringResource(R.string.kashan),
+            stringResource(R.string.Kermanshah),
+            stringResource(R.string.golestan),
+            stringResource(R.string.zahedan),
+            stringResource(R.string.hormozgan),
+            stringResource(R.string.ahvaz),
+            stringResource(R.string.sanandaj),
+            stringResource(R.string.bandarAbbas)
         )
 
     Card(
@@ -92,7 +90,7 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
                     .padding(start = 16.dp, top = 8.dp, bottom = 4.dp)
                     .align(Alignment.Start),
                 fontWeight = FontWeight.Bold,
-                text = "City Selected", style = TextStyle(
+                text = stringResource(R.string.city_selected), style = TextStyle(
                     color = Primary, fontSize = 24.sp
                 )
             )
@@ -104,7 +102,6 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
                     CityNameItem(city) {
                         visible()
                         viewModel.newData(city)
-                        sharedPreferences.edit().putString("City", city).apply()
                     }
                 }
             }
