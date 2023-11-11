@@ -39,9 +39,18 @@ class DataStoreRepository @Inject constructor(
         }
     }
 
-
     suspend fun readCityName(): String {
         return dataStore.data.first()[Keys.cityKeys] ?: "Tehran"
+    }
+
+    suspend fun saveLanguage(language: String) {
+        dataStore.edit { preferences ->
+            preferences[Keys.languageKey] = language
+        }
+    }
+
+    suspend fun readLanguage(): String {
+        return dataStore.data.first()[Keys.languageKey] ?: "en"
     }
 
 }
