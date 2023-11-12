@@ -31,6 +31,7 @@
     <string name="retry">Retry</string>
 
     <string name="city_selected">City Selected</string>
+    <string name="language_selected">Language Selected</string>
 
     <string name="tehran">Tehran</string>
     <string name="Qom">Qom</string>
