@@ -17,6 +17,9 @@ val Transparent = Color(0,0,0, 0)
 val Background = Color(238,247,247)
 val Background1 = Color(214,232,249)
 
+val Red = Color(219, 65, 65, 255)
+val Blue = Color(32, 24, 243, 255)
+
 val Primary = Color(73,81,169)
 val onPrimary = Color(96,92,124)
 
