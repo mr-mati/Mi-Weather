@@ -15,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mati.miweather.R
 import com.mati.miweather.ui.theme.Background
 import com.mati.miweather.ui.theme.Background1
 
@@ -34,7 +36,7 @@ fun ErrorPage(TextError: String, TextError2: String, onclickRetry: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Error",
+            text = stringResource(R.string.error),
             fontSize = 24.sp,
             color = Color.Red
         )
@@ -60,7 +62,7 @@ fun ErrorPage(TextError: String, TextError2: String, onclickRetry: () -> Unit) {
             },
             contentPadding = PaddingValues(16.dp)
         ) {
-            Text(text = "Retry")
+            Text(text = stringResource(R.string.retry))
         }
     }
 }
