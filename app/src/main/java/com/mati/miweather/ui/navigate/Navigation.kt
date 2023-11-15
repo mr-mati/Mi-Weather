@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mati.mimovies.utils.NavigationItem
 import com.mati.miweather.ui.feature.MainScreen
 import com.mati.miweather.ui.feature.MainViewModel
+import com.mati.miweather.ui.feature.Setting.SettingScreen
 
 @Composable
 fun Navigation(viewModel: MainViewModel) {
@@ -17,6 +18,9 @@ fun Navigation(viewModel: MainViewModel) {
     ) {
         composable(NavigationItem.MainScreen.route) {
             MainScreen(viewModel, navHostController)
+        }
+        composable(NavigationItem.SettingScreen.route) {
+            SettingScreen(viewModel, navHostController)
         }
     }
 
