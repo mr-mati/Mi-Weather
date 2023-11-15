@@ -40,10 +40,10 @@ import com.mati.miweather.R
 import com.mati.miweather.ui.theme.Black
 import com.mati.miweather.ui.theme.Transparent
 import com.mati.miweather.ui.theme.White
-import com.mati.miweather.util.USER_LANGUAGE
+import com.mati.miweather.util.USER_THEME
 
 @Composable
-fun DialogLanguage(
+fun DialogTheme(
     select: () -> Unit,
     visible: () -> Unit,
 ) {
@@ -55,14 +55,17 @@ fun DialogLanguage(
         endY = 800.0f
     )
 
+    val light = stringResource(R.string.light)
+    val dark = stringResource(R.string.dark)
+
     val listLanguage =
         listOf(
-            "فارسی",
-            "English"
+            light,
+            dark
         )
 
-    var tickEn by remember { mutableStateOf(false) }
-    var tickFa by remember { mutableStateOf(false) }
+    var tickDark by remember { mutableStateOf(false) }
+    var tickLight by remember { mutableStateOf(false) }
 
 
     Column(
@@ -106,7 +109,7 @@ fun DialogLanguage(
                         modifier = Modifier
                             .padding(start = 4.dp),
                         fontWeight = FontWeight.Bold,
-                        text = stringResource(R.string.language), style = TextStyle(
+                        text = stringResource(R.string.theme), style = TextStyle(
                             color = MaterialTheme.colorScheme.surface, fontSize = 24.sp
                         )
                     )
@@ -117,31 +120,31 @@ fun DialogLanguage(
                         .padding(top = 16.dp, bottom = 16.dp)
                 ) {
                     items(listLanguage) { language ->
-                        if (USER_LANGUAGE == "fa") {
-                            tickFa = true
-                            tickEn = false
-                        } else {
-                            tickEn = true
-                            tickFa = false
+                        if (USER_THEME == "light") {
+                            tickLight = true
+                            tickDark = false
+                        } else if(USER_THEME == "dark") {
+                            tickDark = true
+                            tickLight = false
                         }
                         when (language) {
-                            "فارسی" -> {
-                                ItemLanguage(language = language, tickFa) {
-                                    if (USER_LANGUAGE != "fa") {
-                                        USER_LANGUAGE = "fa"
-                                        tickEn = false
-                                        tickFa = true
+                            light -> {
+                                ItemTheme(language = language, tickLight) {
+                                    if (USER_THEME != "light") {
+                                        USER_THEME = "light"
+                                        tickDark = false
+                                        tickLight = true
                                         select()
                                     }
                                 }
                             }
 
-                            "English" -> {
-                                ItemLanguage(language = language, tickEn) {
-                                    if (USER_LANGUAGE != "en") {
-                                        USER_LANGUAGE = "en"
-                                        tickFa = false
-                                        tickEn = true
+                            dark -> {
+                                ItemTheme(language = language, tickDark) {
+                                    if (USER_THEME != "dark") {
+                                        USER_THEME = "dark"
+                                        tickLight = false
+                                        tickDark = true
                                         select()
                                     }
                                 }
@@ -155,7 +158,7 @@ fun DialogLanguage(
 }
 
 @Composable
-fun ItemLanguage(
+fun ItemTheme(
     language: String,
     visible: Boolean,
     onclick: () -> Unit,
@@ -211,20 +214,3 @@ fun ItemLanguage(
         }
     }
 }
-
-/*
-@Composable
-fun SuccessDialog(title: String, subTitle: String, visibleSuccess: MutableState<Boolean>) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(
-            color = Color(0.9f, 0.9f, 0.9f, 0.8f)
-        )
-        .clickable {
-            visibleSuccess = false
-        }) {
-        Success(title, subTitle) {
-            visibleSuccess = false
-        }
-    }
-}*/
