@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.mati.miweather.util.PREFERENCE_CITY_KEY
 import com.mati.miweather.util.PREFERENCE_LANGUAGE_KEY
 import com.mati.miweather.util.PREFERENCE_NAME
+import com.mati.miweather.util.PREFERENCE_THEME_KEY
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,7 @@ class DataStoreRepository @Inject constructor(
     private object Keys {
         val cityKeys = stringPreferencesKey(PREFERENCE_CITY_KEY)
         val languageKey = stringPreferencesKey(PREFERENCE_LANGUAGE_KEY)
+        val themeKey = stringPreferencesKey(PREFERENCE_THEME_KEY)
     }
 
     private val dataStore = context.dataStore
@@ -51,6 +53,16 @@ class DataStoreRepository @Inject constructor(
 
     suspend fun readLanguage(): String {
         return dataStore.data.first()[Keys.languageKey] ?: "en"
+    }
+
+    suspend fun saveTheme(language: String) {
+        dataStore.edit { preferences ->
+            preferences[Keys.themeKey] = language
+        }
+    }
+
+    suspend fun readTheme(): String {
+        return dataStore.data.first()[Keys.themeKey] ?: "light"
     }
 
 }
