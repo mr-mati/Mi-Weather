@@ -25,6 +25,7 @@ val statusDark = Color(66, 66, 66)
 
 val Red = Color(219, 65, 65, 255)
 val Blue = Color(32, 24, 243, 255)
+val green = Color(102, 187, 106, 255)
 
 val gray = Color(147, 147, 147)
 
