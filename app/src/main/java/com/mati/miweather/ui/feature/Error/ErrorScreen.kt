@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,15 +19,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mati.miweather.R
-import com.mati.miweather.ui.theme.Background
-import com.mati.miweather.ui.theme.Background1
 
 @Composable
 fun ErrorPage(TextError: String, TextError2: String, onclickRetry: () -> Unit) {
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.isNavigationBarVisible = false
+
     val backgroundColor = Brush.verticalGradient(
-        0.0f to Background1, 1.0f to Background, startY = 0.0f, endY = 800.0f
+        0.0f to MaterialTheme.colorScheme.primary,
+        1.0f to MaterialTheme.colorScheme.secondary,
+        startY = 0.0f,
+        endY = 800.0f
     )
+
     Column(
         modifier = Modifier
             .fillMaxSize()

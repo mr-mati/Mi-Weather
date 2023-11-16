@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,16 +22,23 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mati.miweather.R
-import com.mati.miweather.ui.theme.Background
-import com.mati.miweather.ui.theme.Background1
 import com.mati.miweather.util.DataTime
 
 @Composable
 fun SplashScreen() {
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.isNavigationBarVisible = false
+
     val backgroundColor = Brush.verticalGradient(
-        0.0f to Background1, 1.0f to Background, startY = 0.0f, endY = 800.0f
+        0.0f to MaterialTheme.colorScheme.primary,
+        1.0f to MaterialTheme.colorScheme.secondary,
+        startY = 0.0f,
+        endY = 800.0f
     )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,16 +51,15 @@ fun SplashScreen() {
         )
         LottieAnimation(
             modifier = Modifier
-                .size(270.dp, 270.dp)
-                .align(Alignment.Center)
+                .fillMaxSize()
+                .align(Alignment.TopCenter)
                 .background(Color.Transparent),
             composition = composition,
             alignment = Alignment.Center,
             iterations = LottieConstants.IterateForever,
         )
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

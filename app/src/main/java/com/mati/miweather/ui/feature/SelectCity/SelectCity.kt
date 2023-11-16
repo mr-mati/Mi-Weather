@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,21 +28,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mati.miweather.R
 import com.mati.miweather.ui.feature.MainViewModel
-import com.mati.miweather.ui.theme.Background
-import com.mati.miweather.ui.theme.Background1
 import com.mati.miweather.ui.theme.Black
-import com.mati.miweather.ui.theme.Primary
 import com.mati.miweather.ui.theme.Transparent
 import com.mati.miweather.ui.theme.White
-import com.mati.miweather.ui.theme.onPrimary
+import com.mati.miweather.ui.theme.dark
+import com.mati.miweather.ui.theme.dark2
+import com.mati.miweather.ui.theme.light
+import com.mati.miweather.ui.theme.light2
+import com.mati.miweather.util.USER_THEME
 
 @Composable
 fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
 
     val backgroundColor = Brush.verticalGradient(
-        0.0f to Background1, 1.0f to Background, startY = 0.0f, endY = 800.0f
+        0.0f to MaterialTheme.colorScheme.primary,
+        1.0f to MaterialTheme.colorScheme.secondary,
+        startY = 0.0f,
+        endY = 800.0f
     )
 
     val cities =
@@ -103,7 +109,7 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
                             visible()
                         },
                     painter = painterResource(id = R.drawable.back),
-                    tint = onPrimary,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     contentDescription = ""
                 )
                 Text(
@@ -111,7 +117,7 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
                         .padding(start = 4.dp),
                     fontWeight = FontWeight.Bold,
                     text = stringResource(R.string.city_selected), style = TextStyle(
-                        color = Primary, fontSize = 24.sp
+                        color = MaterialTheme.colorScheme.surface, fontSize = 24.sp
                     )
                 )
             }

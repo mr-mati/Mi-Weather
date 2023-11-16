@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -89,7 +90,9 @@ fun ListForecastItem(
                 modifier = Modifier
                     .padding(bottom = 8.dp)
                     .align(Alignment.BottomCenter),
-                text = results.dt_txt, style = TextStyle()
+                text = results.dt_txt, style = TextStyle(
+                    MaterialTheme.colorScheme.onSurface,
+                )
             )
             Box {
                 Row(
@@ -116,21 +119,12 @@ fun ListForecastItem(
                                 .build()
                         ),
                         modifier = Modifier
-                            .size(64.dp, 64.dp)
-                            .padding(top = 46.dp),
+                            .size(100.dp, 100.dp)
+                            .padding(top = 46.dp, end = 4.dp),
                         contentScale = ContentScale.Crop,
                         contentDescription = ""
                     )
                 }
-                /*Text(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 8.dp, start = 8.dp,top = 68.dp),
-                    text = results.weather[0].description, style = TextStyle(
-                        fontSize = 26.sp,
-                        color = White
-                    )
-                )*/
             }
         }
     }

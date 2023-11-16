@@ -13,12 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mati.miweather.R
 import com.mati.miweather.data.model.CitysStatus
-import com.mati.miweather.ui.theme.onPrimary
 
 @Composable
 fun StatusBar(response: CitysStatus) {
@@ -39,7 +40,7 @@ fun StatusBar(response: CitysStatus) {
             defaultElevation = 6.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.onTertiary,
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -52,9 +53,21 @@ fun StatusBar(response: CitysStatus) {
                     .background(Color.Transparent)
                     .align(Alignment.Center)
             ) {
-                ItemOther("${response.wind.speed} Km/h", "Wind Speed", R.drawable.wind)
-                ItemOther("${response.main.humidity} %", "Humidity", R.drawable.humidity)
-                ItemOther("${response.main.pressure} mb", "Pressure", R.drawable.pressure)
+                ItemOther(
+                    "${response.wind.speed} " + stringResource(R.string.kilometers),
+                    stringResource(R.string.windSpeed),
+                    R.drawable.wind
+                )
+                ItemOther(
+                    "${response.main.humidity} " + stringResource(R.string.percent),
+                    stringResource(R.string.humidity),
+                    R.drawable.humidity
+                )
+                ItemOther(
+                    "${response.main.pressure} " + stringResource(R.string.mb),
+                    stringResource(R.string.pressure),
+                    R.drawable.pressure
+                )
             }
         }
     }
@@ -75,7 +88,7 @@ fun ItemOther(data: String, text: String, icon: Int) {
             text = data,
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                color = onPrimary,
+                color = MaterialTheme.colorScheme.surface,
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp
             )
@@ -83,7 +96,7 @@ fun ItemOther(data: String, text: String, icon: Int) {
         Text(
             text = text,
             style = TextStyle(
-                color = Color.LightGray,
+                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
                 fontSize = 14.sp
             )

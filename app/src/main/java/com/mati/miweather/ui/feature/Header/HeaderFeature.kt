@@ -26,7 +26,9 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,6 +42,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -61,14 +64,12 @@ import com.mati.miweather.ui.theme.Morning
 import com.mati.miweather.ui.theme.Morning1
 import com.mati.miweather.ui.theme.Night
 import com.mati.miweather.ui.theme.Night1
-import com.mati.miweather.ui.theme.Primary
 import com.mati.miweather.ui.theme.Transparent
-import com.mati.miweather.ui.theme.onPrimary
 import com.mati.miweather.util.DataTime
 import kotlinx.coroutines.delay
 
 @Composable
-fun Header(response: CitysStatus, onclick: () -> Unit) {
+fun Header(response: CitysStatus, onclick: () -> Unit, onclickSetting: () -> Unit) {
     val data = DataTime.getCurrentData()
     val monthName = DataTime.getGregorianMonthName()
     val dayName = DataTime.getDayName(data).toString()
@@ -85,142 +86,164 @@ fun Header(response: CitysStatus, onclick: () -> Unit) {
     val temp = response.main.temp - 273.15
     val responseTemp = temp.toString().substring(0, 2)
 
-    Column(
-        modifier = Modifier.padding(top = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        contentAlignment = Alignment.TopEnd,
+        modifier = Modifier
+            .padding(end = 16.dp, top = 16.dp)
     ) {
-        Row(
+        Icon(
             modifier = Modifier
-                .padding(bottom = 8.dp)
-                .clickable { onclick() },
+                .size(32.dp)
+                .clickable {
+                    onclickSetting()
+                }
+                .align(Alignment.TopEnd),
+            painter = painterResource(id = R.drawable.setting),
+            tint = MaterialTheme.colorScheme.onPrimary,
+            contentDescription = ""
+        )
+        Column(
+            modifier = Modifier.padding(top = 4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            TextButton(onClick = { onclick() }) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = response.name, style = TextStyle(
+                            color = MaterialTheme.colorScheme.surface, fontSize = 24.sp
+                        )
+                    )
+                    Icon(
+                        imageVector = Icons.Default.LocationOn,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        contentDescription = ""
+                    )
+                }
+            }
             Text(
-                text = response.name, style = TextStyle(
-                    color = Primary, fontSize = 24.sp
+                modifier = Modifier.padding(top = 2.dp, bottom = 4.dp),
+                text = "$dayName, $day $monthName $time",
+                style = TextStyle(
+                    color = Color.Gray, fontSize = 14.sp
                 )
             )
-            Icon(imageVector = Icons.Default.LocationOn, tint = onPrimary, contentDescription = "")
-        }
-        Text(
-            modifier = Modifier.padding(top = 2.dp, bottom = 4.dp),
-            text = "$dayName, $day $monthName $time",
-            style = TextStyle(
-                color = Color.Gray, fontSize = 14.sp
-            )
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.Transparent),
-        ) {
-            Card(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(250.dp)
-                    .background(
-                        Transparent
-                    )
-                    .padding(start = 48.dp, end = 48.dp, top = 4.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 6.dp
-                ),
-                shape = RoundedCornerShape(16.dp)
+                    .background(Color.Transparent),
             ) {
-                Box(
+                Card(
                     modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp)
                         .background(
-                            brush = featureBackground()
+                            Transparent
                         )
+                        .padding(start = 48.dp, end = 48.dp, top = 4.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 6.dp
+                    ),
+                    shape = RoundedCornerShape(16.dp)
                 ) {
-                    Card(
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .align(Alignment.TopCenter)
                             .background(
-                                Transparent
+                                brush = featureBackground()
                             )
-                            .padding(4.dp),
-                        elevation = CardDefaults.cardElevation(
-                            defaultElevation = 6.dp
-                        ),
-                        shape = RoundedCornerShape(14.dp)
                     ) {
-                        Box(
+                        Card(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .zIndex(0f)
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                                .align(Alignment.TopCenter)
                                 .background(
-                                    brush = featureColor()
-                                ),
+                                    Transparent
+                                )
+                                .padding(4.dp),
+                            elevation = CardDefaults.cardElevation(
+                                defaultElevation = 6.dp
+                            ),
+                            shape = RoundedCornerShape(14.dp)
                         ) {
-                            Row(
+                            Box(
                                 modifier = Modifier
-                                    .background(Color.Transparent)
-                                    .align(Alignment.TopEnd),
-                                horizontalArrangement = Arrangement.End
+                                    .fillMaxSize()
+                                    .zIndex(0f)
+                                    .background(
+                                        brush = featureColor()
+                                    ),
                             ) {
+                                Row(
+                                    modifier = Modifier
+                                        .background(Color.Transparent)
+                                        .align(Alignment.TopEnd),
+                                    horizontalArrangement = Arrangement.End
+                                ) {
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(top = 8.dp, end = 16.dp),
+                                        text = stringResource(R.string.centigrade),
+                                        style = TextStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.White,
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 48.sp
+                                        )
+                                    )
+                                }
+                                FeatureAnimation()
+                                val weather = response.weather[0].description
                                 Text(
                                     modifier = Modifier
-                                        .padding(top = 8.dp, end = 16.dp),
-                                    text = "°C",
+                                        .size(150.dp)
+                                        .align(Alignment.BottomEnd)
+                                        .padding(top = 68.dp, end = 8.dp, start = 8.dp),
+                                    text = weather,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         color = Color.White,
                                         textAlign = TextAlign.Center,
-                                        fontSize = 48.sp
+                                        fontSize = 26.sp
                                     )
                                 )
                             }
-                            FeatureAnimation()
-                            val weather = response.weather[0].description
-                            Text(
-                                modifier = Modifier
-                                    .size(150.dp)
-                                    .align(Alignment.BottomEnd)
-                                    .padding(top = 68.dp, end = 8.dp, start = 8.dp),
-                                text = weather,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Bold,
-                                    color = onPrimary,
-                                    textAlign = TextAlign.Center,
-                                    fontSize = 26.sp
-                                )
-                            )
                         }
                     }
                 }
-            }
-            Text(
-                modifier = Modifier
-                    .align(Alignment.TopCenter),
-                text = responseTemp,
-                maxLines = 1,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    fontSize = 150.sp
-                )
-            )
-            val composition by rememberLottieComposition(
-                LottieCompositionSpec.RawRes(
-                    imageFeature(
-                        response
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter),
+                    text = responseTemp,
+                    maxLines = 1,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        fontSize = 150.sp
                     )
                 )
-            )
-            LottieAnimation(
-                modifier = Modifier
-                    .size(270.dp, 270.dp)
-                    .padding(top = 70.dp, end = 100.dp)
-                    .align(Alignment.BottomStart)
-                    .background(Color.Transparent),
-                composition = composition,
-                alignment = Alignment.Center,
-                iterations = LottieConstants.IterateForever,
-            )
+                val composition by rememberLottieComposition(
+                    LottieCompositionSpec.RawRes(
+                        imageFeature(
+                            response
+                        )
+                    )
+                )
+                LottieAnimation(
+                    modifier = Modifier
+                        .size(270.dp, 270.dp)
+                        .padding(top = 70.dp, end = 100.dp)
+                        .align(Alignment.BottomStart)
+                        .background(Color.Transparent),
+                    composition = composition,
+                    alignment = Alignment.Center,
+                    iterations = LottieConstants.IterateForever,
+                )
+            }
         }
     }
 }
