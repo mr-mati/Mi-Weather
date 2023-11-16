@@ -15,14 +15,14 @@ interface ApiService {
     fun getWeather(
         @Query("q") location: String,
         @Query("appid") apiKey: String? = API_KEY,
-        @Query("lang") language: String? = "fa"
+        @Query("lang") language: String
     ): Call<CitysStatus>
 
     @GET("data/2.5/forecast")
     fun getCityForecast(
         @Query("q") location: String,
         @Query("appid") apiKey: String? = API_KEY,
-        @Query("lang") language: String? = "fa"
+        @Query("lang") language: String
     ): Call<CityForecast>
 
 }

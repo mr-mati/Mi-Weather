@@ -10,6 +10,8 @@ import com.mati.miweather.data.model.CityForecast
 import com.mati.miweather.data.model.CitysStatus
 import com.mati.miweather.data.repository.DataStoreRepository
 import com.mati.miweather.data.repository.NetworkRepository
+import com.mati.miweather.util.USER_LANGUAGE
+import com.mati.miweather.util.USER_THEME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Timer
@@ -19,7 +21,7 @@ import kotlin.concurrent.timerTask
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: NetworkRepository,
-    private val dataStoreRepository: DataStoreRepository
+    private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
 
     private val _city: MutableState<CityState> = mutableStateOf(CityState())
@@ -30,8 +32,8 @@ class MainViewModel @Inject constructor(
 
     fun newData(cityName: String) {
         viewModelScope.launch {
-            repository.newData(cityName)
-            saveCityName(cityName)
+            repository.newData(cityName, languageRead())
+            cityNameSave(cityName)
             Timer().schedule(timerTask {
                 _city.value = CityState(repository.cityResponse)
                 _cityForecast.value = ForecastState(repository.forecastResponse)
@@ -41,10 +43,16 @@ class MainViewModel @Inject constructor(
 
     fun getData() {
         viewModelScope.launch {
-            repository.newData(readCityName())
+            repository.newData(cityNameRead(), languageRead())
+            USER_LANGUAGE = languageRead()
+            USER_THEME = themeRead()
             Handler().postDelayed({
-                _city.value = CityState(data = repository.cityResponse)
-                _cityForecast.value = ForecastState(data = repository.forecastResponse)
+                if (repository.cityResponse?.id != null || repository.cityResponse?.id != null) {
+                    _city.value = CityState(data = repository.cityResponse)
+                    _cityForecast.value = ForecastState(data = repository.forecastResponse)
+                    CityState(isLoading = false)
+                    ForecastState(isLoading = false)
+                }
                 if (repository.cityError != null || repository.ForecastError != null) {
                     _city.value = CityState(error = repository.cityError!!)
                     _cityForecast.value = ForecastState(error = repository.ForecastError!!)
@@ -53,11 +61,28 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    suspend fun saveCityName(cityName: String) {
+    private suspend fun cityNameSave(cityName: String) {
         dataStoreRepository.saveCityName(cityName)
     }
 
-    suspend fun readCityName(): String = dataStoreRepository.readCityName()
+    private suspend fun cityNameRead(): String = dataStoreRepository.readCityName()
+
+
+    fun languageSave(language: String) {
+        viewModelScope.launch {
+            dataStoreRepository.saveLanguage(language)
+        }
+    }
+
+    suspend fun languageRead(): String = dataStoreRepository.readLanguage()
+
+    fun themeSave(theme: String) {
+        viewModelScope.launch {
+            dataStoreRepository.saveTheme(theme)
+        }
+    }
+
+    suspend fun themeRead(): String = dataStoreRepository.readTheme()
 
 }
 
