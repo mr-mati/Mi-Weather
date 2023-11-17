@@ -1,8 +1,10 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.mati.miweather.ui.feature.SelectCity
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,15 +14,25 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -28,17 +40,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mati.miweather.R
 import com.mati.miweather.ui.feature.MainViewModel
 import com.mati.miweather.ui.theme.Black
 import com.mati.miweather.ui.theme.Transparent
 import com.mati.miweather.ui.theme.White
-import com.mati.miweather.ui.theme.dark
-import com.mati.miweather.ui.theme.dark2
-import com.mati.miweather.ui.theme.light
-import com.mati.miweather.ui.theme.light2
-import com.mati.miweather.util.USER_THEME
 
 @Composable
 fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
@@ -49,6 +55,8 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
         startY = 0.0f,
         endY = 800.0f
     )
+
+    val searchBox = remember { mutableStateOf("") }
 
     val cities =
         listOf(
@@ -121,12 +129,17 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
                     )
                 )
             }
+
+            searchBox(searchBox){
+
+            }
+
             LazyColumn(
                 modifier = Modifier
-                    .padding(top = 16.dp, bottom = 16.dp)
+                    .padding(bottom = 16.dp)
             ) {
                 items(cities) { city ->
-                    CityNameItem(city) {
+                    CityNameItem(city, "IRAN") {
                         visible()
                         viewModel.newData(city)
                     }
@@ -134,11 +147,10 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
             }
         }
     }
-
 }
 
 @Composable
-fun CityNameItem(cityName: String, onclick: () -> Unit) {
+fun CityNameItem(cityName: String, country: String, onclick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -155,22 +167,86 @@ fun CityNameItem(cityName: String, onclick: () -> Unit) {
         ),
         shape = RoundedCornerShape(16.dp),
     ) {
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
+                .padding(start = 16.dp)
         ) {
+            Row(
+                modifier = Modifier
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    contentDescription = ""
+                )
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = cityName,
+                    style = TextStyle(
+                        fontSize = 26.sp,
+                        color = Black
+                    )
+                )
+            }
             Text(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(16.dp),
-                text = cityName,
+                    .padding(top = 6.dp, bottom = 6.dp),
+                text = country,
                 style = TextStyle(
-                    textAlign = TextAlign.Center,
-                    fontSize = 26.sp,
-                    color = Black
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             )
+        }
+    }
+}
+
+@Composable
+fun searchBox(searchBox: MutableState<String>, clickable: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                Transparent
+            )
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 2.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp
+        ),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.onTertiary),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                tint = MaterialTheme.colorScheme.onSurface,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .clickable {
+                        clickable()
+                    }
+            )
+            TextField(
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = MaterialTheme.colorScheme.onSurface,
+                    disabledTextColor = Transparent,
+                    focusedIndicatorColor = Transparent,
+                    unfocusedIndicatorColor = Transparent,
+                    containerColor = Transparent,
+                    disabledIndicatorColor = Transparent
+                ),
+                singleLine = true,
+                value = searchBox.value, onValueChange = {
+                    searchBox.value = it
+                })
         }
     }
 }
