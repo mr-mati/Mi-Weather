@@ -18,7 +18,7 @@
     <string name="pressure">فشار هوا</string>
 
     <string name="setting">تنظیمات</string>
-    <string name="theme">رابط کاربری</string>
+    <string name="theme">پوسته</string>
     <string name="language">زبان</string>
     <string name="services">سرویس ها</string>
     <string name="unit">واحد</string>
@@ -28,11 +28,19 @@
     <string name="error">خطا</string>
     <string name="select">انتخاب</string>
     <string name="ok">تایید</string>
+    <string name="restart">بازسازی مجدد</string>
+    <string name="later">فعلا نه</string>
     <string name="cancel">لغو</string>
     <string name="retry">تلاش مجدد</string>
 
-    <string name="city_selected">انتخاب مکان</string>
-    <string name="language_selected">انتخاب زبان</string>
+    <string name="city_selected">موقعیت مکانی</string>
+
+    <string name="dark">تاریک</string>
+    <string name="light">روشن</string>
+
+    <string name="success">موفقیت آمیز</string>
+    <string name="change_restart_success">برای اعمال تغییرات یکبار برنامه را کامل ببندید و دوباره باز کنید.</string>
+    <string name="change_setting_success">تنظیمات برنامه با موفقیت ذخیرشد.</string>
 
     <string name="tehran">تهران</string>
     <string name="Qom">قم</string>

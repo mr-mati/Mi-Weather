@@ -27,11 +27,19 @@
     <string name="error">Error</string>
     <string name="select">Error</string>
     <string name="ok">Ok</string>
+    <string name="restart">Restart</string>
+    <string name="later">Later</string>
     <string name="cancel">Cancel</string>
     <string name="retry">Retry</string>
 
-    <string name="city_selected">City Selected</string>
-    <string name="language_selected">Language Selected</string>
+    <string name="city_selected">City</string>
+
+    <string name="dark">Dark</string>
+    <string name="light">light</string>
+
+    <string name="success">Success</string>
+    <string name="change_restart_success">To apply the changes, close the program once and open it again.</string>
+    <string name="change_setting_success">Program settings saved successfully.</string>
 
     <string name="tehran">Tehran</string>
     <string name="Qom">Qom</string>
