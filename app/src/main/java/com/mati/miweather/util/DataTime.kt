@@ -4,7 +4,10 @@ import android.os.Build
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 object DataTime {
 
@@ -14,12 +17,11 @@ object DataTime {
         } else {
             TODO("VERSION.SDK_INT < O")
         }
-        val formatter =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                DateTimeFormatter.ofPattern("HH:mm")
-            } else {
-                TODO("VERSION.SDK_INT < O")
-            }
+        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("HH:mm")
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
         return currentTime.format(formatter)
     }
 
@@ -29,12 +31,11 @@ object DataTime {
         } else {
             TODO("VERSION.SDK_INT < O")
         }
-        val formatter =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                DateTimeFormatter.ofPattern("HH:mm")
-            } else {
-                TODO("VERSION.SDK_INT < O")
-            }
+        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("HH:mm")
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
         return currentTime.hour
     }
 
@@ -93,6 +94,34 @@ object DataTime {
         }
         return currentDate.format(formatter)
     }
+
+    fun convertGregorianToHijri(gregorianDate: String): String {
+        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        val gregorianLocalDate = LocalDate.parse(gregorianDate, formatter)
+        val hijriDate = HijrahDate.from(gregorianLocalDate)
+        val hijriFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale("fa", "IR"))
+        return hijriFormatter.format(hijriDate)
+    }
+
+
+    fun convertDayHijri(gregorianDate: String): String {
+        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        val gregorianLocalDate = LocalDate.parse(gregorianDate, formatter)
+        val hijriDate = HijrahDate.from(gregorianLocalDate)
+        val dayOfWeek = DayOfWeek.from(hijriDate)
+        return dayOfWeek.getDisplayName(
+            TextStyle.FULL, Locale("fa", "IR")
+        )
+    }
+
 
     fun getGregorianMonthName(): String? {
         return when (getMonth()) {
