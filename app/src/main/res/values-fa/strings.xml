@@ -42,6 +42,10 @@
     <string name="change_restart_success">برای اعمال تغییرات یکبار برنامه را کامل ببندید و دوباره باز کنید.</string>
     <string name="change_setting_success">تنظیمات برنامه با موفقیت ذخیرشد.</string>
 
+    <string name="version">1.1.5</string>
+    <string name="help_about">ارتباط با پشتیبانی</string>
+
+
     <string name="tehran">تهران</string>
     <string name="Qom">قم</string>
     <string name="esfahan">اصفهان</string>

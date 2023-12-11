@@ -41,6 +41,9 @@
     <string name="change_restart_success">To apply the changes, close the program once and open it again.</string>
     <string name="change_setting_success">Program settings saved successfully.</string>
 
+    <string name="version">1.1.5</string>
+    <string name="help_about">ارتباط با پشتیبانی</string>
+
     <string name="tehran">Tehran</string>
     <string name="Qom">Qom</string>
     <string name="esfahan">Esfahan</string>

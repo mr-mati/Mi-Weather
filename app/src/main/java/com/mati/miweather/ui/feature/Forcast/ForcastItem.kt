@@ -31,7 +31,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
@@ -39,6 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -79,7 +79,7 @@ fun ListForecastItem(
                     .padding(bottom = 4.dp, top = 8.dp, end = 8.dp)
             ) {
                 response.forEach {
-                    if (it.dt_txt.substring(11, 19) == "12:00:00") {
+                    if (it.dt_txt.substring(11, 19) == "21:00:00") {
                         DayShowing(it, data.value) {
                             data.value = it.dt_txt.substring(0, 10)
                         }
@@ -255,12 +255,21 @@ fun ItemForecast(results: CityForecast.Main) {
                 }
                 Text(
                     modifier = Modifier
-                        .padding(bottom = 8.dp),
+                        .padding(start = 6.dp, end = 8.dp),
+                    text = results.weather[0].description,
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = White,
+                    )
+                )
+                Text(
                     text = dayName.value,
                     style = TextStyle(
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = White,
                     )
                 )
                 Text(

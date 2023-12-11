@@ -32,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -130,7 +129,7 @@ fun SelectCity(viewModel: MainViewModel, visible: () -> Unit) {
                 )
             }
 
-            searchBox(searchBox){
+            searchBox(searchBox) {
 
             }
 
@@ -204,6 +203,7 @@ fun CityNameItem(cityName: String, country: String, onclick: () -> Unit) {
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun searchBox(searchBox: MutableState<String>, clickable: () -> Unit) {
     Card(
@@ -235,6 +235,8 @@ fun searchBox(searchBox: MutableState<String>, clickable: () -> Unit) {
                     }
             )
             TextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = MaterialTheme.colorScheme.onSurface,
                     disabledTextColor = Transparent,
