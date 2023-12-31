@@ -1,5 +1,6 @@
 package com.mati.miweather.ui.feature.Setting.DialogsItem
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,12 +16,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +36,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.mati.miweather.R
 import com.mati.miweather.ui.theme.Transparent
 import com.mati.miweather.ui.theme.green
+import java.util.Locale
 
 
 @Composable
@@ -103,6 +107,8 @@ fun Success(
             )
         }
     }
+    val activity = LocalContext.current as? ComponentActivity
+    activity?.recreate()
 }
 
 
@@ -154,13 +160,13 @@ fun AboutDialog(visible: () -> Unit) {
                         textAlign = TextAlign.Center
                     )
                 )
-                Button(
+                /*Button(
                     modifier = Modifier
-                        .fillMaxWidth(64.dp),
+                        .fillMaxWidth(8.dp),
                     colors = ButtonColors(MaterialTheme.colorScheme.primary)
                 ){
 
-                }
+                }*/
             }
         }
     }

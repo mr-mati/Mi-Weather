@@ -154,6 +154,7 @@ fun DialogLanguage(
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun ItemLanguage(
     language: String,
