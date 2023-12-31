@@ -84,7 +84,16 @@ fun Header(response: CitysStatus, onclick: () -> Unit, onclickSetting: () -> Uni
     }
 
     val temp = response.main.temp - 273.15
-    val responseTemp = temp.toString().substring(0, 2)
+
+    val responseTemp: String = if (temp >= 10 && temp < 100) {
+        temp.toString().substring(0, 2)
+    } else if (temp >= 0 && temp < 10) {
+        temp.toString().substring(0, 1)
+    } else if (temp > -10 && temp < 0) {
+        temp.toString().substring(0, 2)
+    } else {
+        temp.toString().substring(0, 3)
+    }
 
     Box(
         contentAlignment = Alignment.TopEnd,
